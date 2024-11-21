@@ -1,8 +1,11 @@
 import WebSocket, { Server as WebSocketServer } from "ws";
 import Redis from "ioredis";
 
-// Create Redis client
-const redis = new Redis();
+// Redis Client configuration
+const redis = new Redis({
+  host: process.env.REDIS_HOST || 'localhost',
+  port: parseInt(process.env.REDIS_PORT || '6379'),
+});
 
 // Create WebSocket server
 const wss = new WebSocketServer({ port: 8080 });

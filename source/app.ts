@@ -45,7 +45,7 @@ redis.on('message', (channel, message) => {
     console.log(`Message received from Redis ----- : ${message}`);
     // Broadcast to all connected WebSocket clients
     wss.clients.forEach((client) => {
-      console.log(client);
+      console.log(message);
       if (client.readyState === WebSocket.OPEN) {
         client.send(message);
       }

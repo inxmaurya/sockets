@@ -28,8 +28,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ws_1 = __importStar(require("ws"));
 const ioredis_1 = __importDefault(require("ioredis"));
-// Create Redis client
-const redis = new ioredis_1.default();
+// Redis Client configuration
+const redis = new ioredis_1.default({
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6379'),
+});
 // Create WebSocket server
 const wss = new ws_1.Server({ port: 8080 });
 // Track WebSocket subscriptions
@@ -51,7 +54,7 @@ redis.on('message', (channel, message) => {
         console.log(`Message received from Redis ----- : ${message}`);
         // Broadcast to all connected WebSocket clients
         wss.clients.forEach((client) => {
-            console.log(client);
+            console.log(message);
             if (client.readyState === ws_1.default.OPEN) {
                 client.send(message);
             }

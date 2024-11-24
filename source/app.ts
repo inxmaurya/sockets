@@ -1,6 +1,12 @@
 import WebSocket, { Server as WebSocketServer } from "ws";
 import Redis from "ioredis";
 
+import dotenv from 'dotenv';
+// Determine the environment and load the corresponding .env file
+const envFile = `.env.${process.env.NODE_ENV}`;
+// Load environment variables from .env file
+dotenv.config({path: envFile});
+
 // Redis Client configuration
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'localhost',
